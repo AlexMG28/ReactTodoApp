@@ -1,0 +1,22 @@
+.todo-list-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.todo-list-item-label {
+    margin-left: 1.25rem;
+    line-height: 35px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.todo-list-item.important .todo-list-item-label{
+    color: slateblue;
+    font-weight: bold;
+}
+
+.todo-list-item.done .todo-list-item-label {
+    color: grey;
+    font-weight: bolder;
+    text-decoration: line-through;
+}
