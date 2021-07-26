@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './app.css'
+
 import AppHeader from '../app-header'
 import SearchPanel from '../search-panel'
 import ItemStatusFilter from '../item-status-filter'
@@ -15,7 +17,7 @@ const App = () => {
 	]
 
 	return (
-		<div>
+		<div className='todo-app'>
 			<AppHeader />
 			<div className='d-flex'>
 				<SearchPanel />
