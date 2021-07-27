@@ -11,8 +11,9 @@
 }
 
 .todo-list-item.important .todo-list-item-label{
+    font-size: 1.2rem;
     color: slateblue;
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 
 .todo-list-item.done .todo-list-item-label {
