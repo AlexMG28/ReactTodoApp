@@ -8,20 +8,30 @@ import ItemStatusFilter from '../item-status-filter'
 import TodoList from '../todo-list'
 import ItemAddForm from '../item-add-form'
 
-
 export default class App extends Component {
+
+	maxId = 0
 
 	state = {
 		todoData: [
-			{ label: 'Learn Javascript', important: true, id: 1 },
-			{ label: 'Learn React & Redux', important: true, id: 2 },
-			{ label: 'Build React CRM App', important: true, id: 3 },
-			{ label: 'Become a FrontEnd Developer', important: true, id: 4 },
-			{ label: 'Drink coffee', important: false, id: 5 },
+			this.createTodoItem('Learn JS'),
+			this.createTodoItem('Learn React'),
+			this.createTodoItem('Build CRM App'),
+			this.createTodoItem('Become a FrontEnd DEV'),
+			this.createTodoItem('Drink water'),
 		]
 	}
 
-	deleteItem = (id) => {
+	createTodoItem(label) {
+		return {
+			label,
+			important: false,
+			done: false,
+			id: this.maxId++,
+		}
+	}
+
+	deleteTodoItem = (id) => {
 		this.setState(({ todoData }) => {
 			const deleteItemIndex = todoData.findIndex((el) => el.id === id)
 
@@ -35,9 +45,19 @@ export default class App extends Component {
 		})
 	}
 
+	addTodoItem = (label) => {
+		const newItem = this.createTodoItem(label)
+
+		this.setState(({ todoData }) => {
+			const newTodoData = [...todoData, newItem]
+			return {
+				todoData: newTodoData
+			}
+
+		})
+	}
 
 	render() {
-
 		return (
 			<div className='todo-app'>
 				<AppHeader />
@@ -47,8 +67,9 @@ export default class App extends Component {
 				</div>
 				<TodoList
 					todos={this.state.todoData}
-					onDeleted={this.deleteItem} />
-				<ItemAddForm />
+					onItemDeleted={this.deleteTodoItem} />
+				<ItemAddForm
+					onItemAdded={this.addTodoItem} />
 			</div>
 		)
 	}
