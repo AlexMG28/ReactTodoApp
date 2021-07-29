@@ -10,7 +10,7 @@ import ItemAddForm from '../item-add-form'
 
 export default class App extends Component {
 
-	maxId = 0
+	itemId = 0
 
 	state = {
 		todoData: [
@@ -27,7 +27,7 @@ export default class App extends Component {
 			label,
 			important: false,
 			done: false,
-			id: this.maxId++,
+			id: this.itemId++,
 		}
 	}
 
