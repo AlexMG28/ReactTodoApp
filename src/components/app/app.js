@@ -33,11 +33,11 @@ export default class App extends Component {
 
 	deleteTodoItem = (id) => {
 		this.setState(({ todoData }) => {
-			const deleteItemIndex = todoData.findIndex((el) => el.id === id)
+			const index = todoData.findIndex((el) => el.id === id)
 
 			const newTodoData = [
-				...todoData.slice(0, deleteItemIndex),
-				...todoData.slice(deleteItemIndex + 1)
+				...todoData.slice(0, index),
+				...todoData.slice(index + 1)
 			]
 			return {
 				todoData: newTodoData
@@ -57,6 +57,39 @@ export default class App extends Component {
 		})
 	}
 
+	toggleProperty = (array, id, propName) => {
+		const index = array.findIndex((el) => el.id === id)
+		const oldItem = array[index]
+		const newItem = {
+			...oldItem,
+			[propName]: !oldItem[propName]
+		}
+		const newArray = [
+			...array.slice(0, index),
+			newItem,
+			...array.slice(index + 1)
+		]
+
+		return newArray
+
+	}
+
+	onToggleImportant = (id) => {
+		this.setState(({ todoData }) => {
+			return {
+				todoData: this.toggleProperty(todoData, id, 'important')
+			}
+		})
+	}
+
+	onToggleDone = (id) => {
+		this.setState(({ todoData }) => {
+			return {
+				todoData: this.toggleProperty(todoData, id, 'done')
+			}
+		})
+	}
+
 	render() {
 		return (
 			<div className='todo-app'>
@@ -67,7 +100,9 @@ export default class App extends Component {
 				</div>
 				<TodoList
 					todos={this.state.todoData}
-					onItemDeleted={this.deleteTodoItem} />
+					onItemDeleted={this.deleteTodoItem}
+					onToggleImportant={this.onToggleImportant}
+					onToggleDone={this.onToggleDone} />
 				<ItemAddForm
 					onItemAdded={this.addTodoItem} />
 			</div>

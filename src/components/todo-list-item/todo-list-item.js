@@ -1,67 +1,38 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import './todo-list-item.css'
 
-export default class TodoListItem extends Component {
+const TodoListItem = ({ label, important, done, onItemDeleted, onToggleImportant, onToggleDone }) => {
 
-    state = {
-        done: false,
-        important: false
-    }
+    let classNames = 'todo-list-item'
 
-    onLabelClick = () => {
-        this.setState(( { done } )=>{
-            return {
-                done: !done
-            }
-        })
-            
-    }
+    if ( done ) { classNames += ' done' }
 
-    onMarkImportant = () => {
-        this.setState(({ important }) => {
-            return {
-                important: !important
-            }
-        })
-    }
+    if ( important ) { classNames += ' important' }
 
-    render() {
-        const { label, onItemDeleted } = this.props
-        const { done, important } = this.state
-
-        let classNames = 'todo-list-item'
-
-        if (done) {
-            classNames += ' done'
-        }
-
-        if (important) {
-            classNames += ' important'
-        }
-
-        return (
-            <span className={ classNames }>
-                <span className='todo-list-item-label'
-                    onClick={ this.onLabelClick }>
-                    { label }
-                </span>
-                <div className='btn-group' role='group'>
-                    <button
-                        type='button'
-                        className='btn btn-outline-success'
-                        onClick={ this.onMarkImportant }>
-                        Important
-                    </button>
-                    <button
-                        type='button'
-                        className='btn btn-outline-danger'
-                        onClick={ onItemDeleted }>
-                        Delete
-                    </button>
-                </div>
+    return (
+        <span className={classNames}>
+            <span className='todo-list-item-label'
+                onClick={onToggleDone}>
+                {label}
             </span>
-        )
-    }
+            <div className='btn-group' role='group'>
+                <button
+                    type='button'
+                    className='btn btn-outline-success'
+                    onClick={onToggleImportant}>
+                    Important
+                </button>
+                <button
+                    type='button'
+                    className='btn btn-outline-danger'
+                    onClick={onItemDeleted}>
+                    Delete
+                </button>
+            </div>
+        </span>
+    )
+
 }
 
+export default TodoListItem
