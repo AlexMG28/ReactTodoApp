@@ -19,7 +19,8 @@ export default class App extends Component {
 			this.createTodoItem('Build CRM App'),
 			this.createTodoItem('Become a FrontEnd DEV'),
 			this.createTodoItem('Drink water'),
-		]
+		],
+		term: '',
 	}
 
 	createTodoItem(label) {
@@ -90,21 +91,42 @@ export default class App extends Component {
 		})
 	}
 
+	onSearchChange = (term) => {
+		this.setState({ term })
+	}
+
+	search(items, term) {
+		if (term.length === 0) {
+			return items
+		}
+
+		return items.filter((item) => {
+			return item.label
+				.toLowerCase()
+				.indexOf(term.toLowerCase()) > -1
+		})
+	}
+
 	render() {
-		const { todoData } = this.state
-		const countDone =  todoData.filter((el) => el.done).length
+		const { todoData, term } = this.state
+
+		const visibleItems = this.search(todoData, term)
+
+		const countDone = todoData.filter((el) => el.done).length
 		const countTodo = todoData.length - countDone
+		
 		return (
 			<div className='todo-app'>
-				<AppHeader	
-					done={ countDone } 
-					todo={ countTodo }/>
+				<AppHeader
+					done={countDone}
+					todo={countTodo} />
 				<div className='d-flex'>
-					<SearchPanel />
+					<SearchPanel
+						onSearchChange={this.onSearchChange} />
 					<ItemStatusFilter />
 				</div>
 				<TodoList
-					todos={this.state.todoData}
+					todos={visibleItems}
 					onItemDeleted={this.deleteTodoItem}
 					onToggleImportant={this.onToggleImportant}
 					onToggleDone={this.onToggleDone} />
