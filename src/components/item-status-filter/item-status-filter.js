@@ -1,30 +1,36 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import './item-status-filter.css'
 
-export default class ItemStatusFilter extends Component {
-    render () {
+const filterButtons = [
+    { name: 'all', label: 'All' },
+    { name: 'active', label: 'Active' },
+    { name: 'done', label: 'Done' },
+]
+
+const itemStatusFilter = ({ filter, onFilterChange }) => {
+    
+    const buttons = filterButtons.map(({ name, label }) => {
+        const isActive = filter === name
+
+        const classNames = 'btn ' + (isActive ? 'btn-primary' : 'btn-outline-secondary')
+
         return (
-            <div className='btn-group' role='group'>
-                <button 
-                    type='button'
-                    className='btn btn-primary'>
-                    All
-                </button>
-                <button 
-                    type='button'
-                    className='btn btn-outline-primary'>
-                    Active
-                </button>
-                <button 
-                    type='button'
-                    className='btn btn-outline-primary'>
-                    Done
-                </button>
-
-            </div>
-
-
+            <button
+                key={name}
+                type='button'
+                className={classNames}
+                onClick={()=> onFilterChange (name)}>
+                {label}
+            </button>
         )
-    }
+    })
+
+    return (
+        <div className='btn-group' role='group' >
+            { buttons }
+        </div >
+    )
 }
+
+export default itemStatusFilter
